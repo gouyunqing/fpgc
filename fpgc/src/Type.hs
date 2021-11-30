@@ -1,3 +1,5 @@
+module Type (MovieInfo (MovieInfo)) where
+
 type Title = String
 type Year = Int
 type ID = String
