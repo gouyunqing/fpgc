@@ -27,11 +27,11 @@ data MovieInfo = MovieInfo {
         release_date :: String,
         revenue :: Integer,
         runtime :: Int,
-        sopken_languages :: [Language],
+        spoken_languages :: [Language],
         status :: String,
         tagline :: String,
         title :: String,
-        vidio :: Bool,
+        video :: Bool,
         vote_average :: Double,
         vote_count :: Int
     } deriving (Show)
