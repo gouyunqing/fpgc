@@ -110,14 +110,14 @@ initialiseDB = do
 
         return conn
 
-getOrCreateCountry :: Connection -> String -> String -> Maybe Int -> IO Country
-getOrCreateMovie conn country continent population = do
-    results <- queryNamed conn "SELECT * FROM countries WHERE country=:country AND continent=:continent" [":country" := country, ":continent" := continent]    
-    if length results > 0 then
-        return . head $ results
-    else do
-        execute conn "INSERT INTO countries (country, continent, population) VALUES (?, ?, ?)" (country, continent, population)
-        getOrCreateCountry conn country continent population
+-- search adult movie
+getAdultMovie conn adult = do
+    results <- queryNamed conn "SELECT * FROM movie WHERE adult=:adult" [":adult" := adult]
+getMovieByName conn name = do
+    results <- queryNamed conn "SELECT * FROM movie WHERE name LIKE "%:name%" [":name" := name]
+getMovieById conn id = do
+    results <- queryNamed conn "SELECT * FROM movie WHERE id=:id" [":id" := id]
+
 
 createRecord :: Connection -> Record -> IO ()
 createRecord conn record = do
