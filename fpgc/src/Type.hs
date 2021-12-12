@@ -36,6 +36,7 @@ data MovieInfo = MovieInfo {
         vote_count :: Int
     } deriving (Show)
 
+
 data Collection = Collection {
         collection_id :: Int,
         collection_name :: String,
@@ -65,3 +66,33 @@ data Language = Language {
         iso_639_1 :: String,
         language_name :: String
     } deriving (Show)
+
+data Movie2Collection = Movie2Collection {
+    id :: Int,
+    movie_id :: Int,
+    collection_id :: Int
+}
+
+data Movie2Genre = Movie2Genre {
+    id :: Int,
+    movie_id :: Int,
+    genre_id :: Int
+}
+
+data Movie2Company = Movie2Company {
+    id :: Int,
+    movie_id :: Int,
+    company_id :: Int
+}
+
+data Movie2Country = Movie2Country {
+    id :: Int,
+    movie_id :: Int,
+    country_id :: Int
+}
+
+data Movie2Language = Movie2Language {
+    id :: Int,
+    movie_id :: Int,
+    language_id :: Int
+}
