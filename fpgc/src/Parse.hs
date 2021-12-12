@@ -42,6 +42,7 @@ instance FromJSON MovieInfo where
         <*> v .: "vote_average"
         <*> v .: "vote_count"
 
+-- Parse a given byte string which represents a JSON to a list of MovieInfo.
 parseMovieInfo :: L8.ByteString -> Either String [MovieInfo]
 parseMovieInfo json = eitherDecode json :: Either String [MovieInfo]
 
@@ -54,6 +55,7 @@ instance FromJSON Collection where
         <*> v .: "collection_poster_path"
         <*> v .: "collection_backdrop_path"
 
+-- Parse a given byte string which represents a JSON to a list of Collection.
 parseCollection :: L8.ByteString -> Either String [Collection]
 parseCollection json = eitherDecode json :: Either String [Collection]
 
@@ -64,6 +66,7 @@ instance FromJSON Genre where
         <$> v .: "genre_id"
         <*> v .: "genre_name"
 
+-- Parse a given byte string which represents a JSON to a list of Genre.
 parseGenre :: L8.ByteString -> Either String [Genre]
 parseGenre json = eitherDecode json :: Either String [Genre]
 
@@ -76,6 +79,7 @@ instance FromJSON Company where
         <*> v .: "company_name"
         <*> v .: "original_country"
 
+-- Parse a given byte string which represents a JSON to a list of Company.
 parseCompany :: L8.ByteString -> Either String [Company]
 parseCompany json = eitherDecode json :: Either String [Company]
 
@@ -86,6 +90,7 @@ instance FromJSON Country where
         <$> v .: "iso_3166_1"
         <*> v .: "country_name"
 
+-- Parse a given byte string which represents a JSON to a list of Country.
 parseCountry :: L8.ByteString -> Either String [Country]
 parseCountry json = eitherDecode json :: Either String [Country]
 
@@ -97,5 +102,6 @@ instance FromJSON Language where
         <*> v .: "iso_639_1"
         <*> v .: "language_name"
 
+-- Parse a given byte string which represents a JSON to a list of Language.
 parseLanguage :: L8.ByteString -> Either String [Language]
 parseLanguage json = eitherDecode json :: Either String [Language]
