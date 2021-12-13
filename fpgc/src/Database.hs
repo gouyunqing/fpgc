@@ -5,29 +5,30 @@
 
 module Database (
     initialiseDB,
-    getOrCreateCountry,
-    saveRecords,
-    queryCountryAllEntries,
-    queryCountryTotalCases
+    getAdultMovie,
+    getMovieByName,
+    getMovieById,
+    createMovieInfo,
+    saveMovieInfo
 ) where
 
 
-instance FromRow Record where
-    fromRow = Record <$> field <*> field <*> field <*> field <*> field <*> field <*> field <*> field <*> field
+-- instance FromRow Record where
+--     fromRow = Record <$> field <*> field <*> field <*> field <*> field <*> field <*> field <*> field <*> field
 
-instance FromRow Country where
-    fromRow = Country <$> field <*> field <*> field <*> field
+-- instance FromRow Country where
+--     fromRow = Country <$> field <*> field <*> field <*> field
 
-instance ToRow Country where
-    toRow (Country id_ country_ continent_ population_)
-        = toRow (id_, country_, continent_, population_)
+-- instance ToRow Country where
+--     toRow (Country id_ country_ continent_ population_)
+--         = toRow (id_, country_, continent_, population_)
 
-instance FromRow Entry where
-    fromRow = Entry <$> field <*> field <*> field <*> field <*> field <*> field <*> field
+-- instance FromRow Entry where
+--     fromRow = Entry <$> field <*> field <*> field <*> field <*> field <*> field <*> field
 
-instance ToRow Entry where
-    toRow (Entry date_ day_ month_ year_ cases_ deaths_ fk_country)
-        = toRow (date_, day_, month_, year_, cases_, deaths_, fk_country)
+-- instance ToRow Entry where
+--     toRow (Entry date_ day_ month_ year_ cases_ deaths_ fk_country)
+--         = toRow (date_, day_, month_, year_, cases_, deaths_, fk_country)
 
 import Types
 import Control.Applicative
@@ -106,46 +107,58 @@ initialiseDB = do
             \`id` INT NOT NULL AUTO_INCREMENT,\
             \`movie_id` INT NOT NULL,\
             \`language_id` VARCHAR(45) NOT NULL,\
+            \PRIMARY KEY (`id`))"
+        execute_ conn "CREATE TABLE `collection` (\
+            \`id` INT NOT NULL,\
+            \`collection_name` VARCHAR(45) NULL,\
+            \`collection_poster_path` VARCHAR(45) NULL,\
+            \`collection_backdrop_path` VARCHAR(45) NULL,\
             \PRIMARY KEY (`id`))"    
+        execute_ conn "CREATE TABLE `movie_collection` (\
+            \`id` INT NOT NULL AUTO_INCREMENT,\
+            \`movie_id` INT NOT NULL,\
+            \`collection_id` INT NOT NULL,\
+            \PRIMARY KEY (`id`))"
 
         return conn
 
 -- search adult movie
 getAdultMovie conn adult = do
     results <- queryNamed conn "SELECT * FROM movie WHERE adult=:adult" [":adult" := adult]
+-- search by name
 getMovieByName conn name = do
-    results <- queryNamed conn "SELECT * FROM movie WHERE name LIKE "%:name%" [":name" := name]
+    results <- queryNamed conn "SELECT * FROM movie WHERE name LIKE '%:name%'" [":name" := name]
+-- search by id
 getMovieById conn id = do
     results <- queryNamed conn "SELECT * FROM movie WHERE id=:id" [":id" := id]
 
-
-createRecord :: Connection -> Record -> IO ()
-createRecord conn record = do
-    country <- getOrCreateCountry conn (country record) (continent record) (population record)
-    let entry = Entry {
-        date_ = date record,
-        day_ = day record,
-        month_ = month record,
-        year_ = year record,
-        cases_ = cases record,
-        deaths_ = deaths record,
-        fk_country = id_ country
+createMovieInfo :: Connection -> MovieInfo -> IO ()
+createMovieInfo conn movieInfo = do
+    let movie = Movie {
+        adult = adult movieInfo,
+        backdrop_path = backdrop_path movieInfo,
+        budget = budget movieInfo,
+        homepage = homepage movieInfo,
+        id = id movieInfo,
+        imdb_id = imdb_id movieInfo,
+        original_language = original_language movieInfo,
+        original_title = original_title movieInfo,
+        overview = overview movieInfo,
+        popularity = popularity movieInfo,
+        poster_path = poster_path movieInfo,
+        release_date = release_date movieInfo,
+        revenue = revenue movieInfo,
+        runtime = runtime movieInfo,
+        status = status movieInfo,
+        tagline = tagline movieInfo,
+        title = title movieInfo,
+        video = video movieInfo,
+        vote_average = vote_average movieInfo,
+        vote_count = vote_count movieInfo
     }
-    execute conn "INSERT INTO entries VALUES (?,?,?,?,?,?,?)" entry
 
-saveRecords :: Connection -> [Record] -> IO ()
-saveRecords conn = mapM_ (createRecord conn)
+    execute conn "INSERT INTO movie VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)" movie
 
-queryCountryAllEntries :: Connection -> IO [Record]
-queryCountryAllEntries conn = do
-    putStr "Enter country name > "
-    countryName <- getLine
-    putStrLn $ "Looking for " ++ countryName ++ " entries..."
-    let sql = "SELECT date, day, month, year, cases, deaths, country, continent, population FROM entries inner join countries on entries.fk_country == countries.id WHERE country=?"
-    query conn sql [countryName]
+saveMovieInfo :: Connection -> [MovieInfo] -> IO ()
+saveMovieInfo conn = mapM_ (createMovieInfo conn)
 
-queryCountryTotalCases :: Connection -> IO ()
-queryCountryTotalCases conn = do
-    countryEntries <- queryCountryAllEntries conn
-    let total = sum (map cases countryEntries)
-    print $ "Total entries: " ++ show(total)
