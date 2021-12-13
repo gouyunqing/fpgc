@@ -1,3 +1,6 @@
+{-# LANGUAGE OverloadedStrings #-}
+{-# LANGUAGE DeriveGeneric #-}
+
 module Parse
     ( parseMovieInfo
     , parseCollection
@@ -7,7 +10,7 @@ module Parse
     , parseLanguage
     ) where
 
-import Types
+import Type
 
 import Data.Aeson
 import qualified Data.ByteString.Lazy.Char8 as L8
@@ -15,7 +18,7 @@ import qualified Data.ByteString.Lazy.Char8 as L8
 -- ############ parseMovieInfo ############
 
 instance FromJSON MovieInfo where
-    parseJSON = withObject "MovieInfo" $ \v -> MovieInfo
+    parseJSON (Object v) = MovieInfo
         <$> v .: "adult"
         <*> v .: "backdrop_path"
         <*> v .: "belongs_to_collection"

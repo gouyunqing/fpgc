@@ -149,7 +149,7 @@ createMovieInfo conn movieInfo = do
         backdrop_path_ = backdrop_path movieInfo,
         budget_ = budget movieInfo,
         homepage_ = homepage movieInfo,
-        id_ = id movieInfo,
+        id_ = mid movieInfo,
         imdb_id_ = imdb_id movieInfo,
         original_language_ = original_language movieInfo,
         original_title_ = original_title movieInfo,
@@ -169,18 +169,19 @@ createMovieInfo conn movieInfo = do
 
     execute conn "INSERT INTO movie VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)" movie
 
-    let genres = genres movieInfo
-    mapM_ (createGenre conn movie_id) genres
+    let genre_list = genres movieInfo
+    let movie_id__ = mid movieInfo
+    mapM_ (createMovie2Genre conn movie_id__) genre_list
 
     
-createMovie2Genre :: Connection -> String -> Genre -> IO ()
-createGenre conn movie_id genre = do
+createMovie2Genre :: Connection -> Int -> Genre -> IO ()
+createMovie2Genre conn movie_id__ genre = do
     genre_results <- queryNamed conn "SELECT * FROM `genre` WHERE genre_id=:genre_id" [":genre_id" := (genre_id genre)]
     if length genre_results > 0 then
-        execute conn "INSERT INTO movie_genre (movie_id, genre_id) VALUES (?,?)" (movie_id, (genre_id genre))
+        execute conn "INSERT INTO movie_genre (movie_id, genre_id) VALUES (?,?)" (movie_id__, (genre_id genre))
     else do
-        execute conn "INSERT INTO genre VALUES (?,?)" ((gerne_id genre), (genre_name genre))
-        execute conn "INSERT INTO movie_genre (movie_id, genre_id) VALUES (?,?)" (movie_id, (genre_id genre))
+        execute conn "INSERT INTO genre VALUES (?,?)" ((genre_id genre), (genre_name genre))
+        execute conn "INSERT INTO movie_genre (movie_id, genre_id) VALUES (?,?)" (movie_id__, (genre_id genre))
 
 saveMovieInfo :: Connection -> [MovieInfo] -> IO ()
 saveMovieInfo conn = mapM_ (createMovieInfo conn)

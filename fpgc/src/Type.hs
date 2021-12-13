@@ -1,3 +1,5 @@
+{-# LANGUAGE DeriveGeneric #-}
+
 module Type 
 ( MovieInfo(..)
 , Movie(..)
@@ -13,15 +15,17 @@ module Type
 , Movie2Language(..)
 ) where
 
+import GHC.Generics
+
 
 data MovieInfo = MovieInfo {
         adult :: Bool,
         backdrop_path :: String,
-        belongs_to_collection :: [Collection],
+        belongs_to_collection :: Maybe [Collection],
         budget :: Integer,
         genres :: [Genre],
         homepage :: String,
-        id :: Int,
+        mid :: Int,
         imdb_id :: String,
         original_language :: String,
         original_title :: String,
@@ -40,7 +44,7 @@ data MovieInfo = MovieInfo {
         video :: Bool,
         vote_average :: Double,
         vote_count :: Int
-    } deriving (Show)
+    } deriving (Show,Generic)
 
 
 data Movie = Movie {
@@ -77,30 +81,30 @@ data Collection = Collection {
         collection_name :: String,
         collection_poster_path :: String,
         collection_backdrop_path :: String
-    } deriving (Show)
+    } deriving (Show,Generic)
 
 data Genre = Genre {
         genre_id :: Int,
         genre_name :: String
-    } deriving (Show)
+    } deriving (Show,Generic)
 
 data Company = Company {
         company_id :: Int,
-        logo_path :: String,
+        logo_path :: Maybe String,
         company_name :: String,
         original_country :: String
-    } deriving (Show)
+    } deriving (Show,Generic)
 
 data Country = Country {
         iso_3166_1 :: String,
         country_name :: String
-    } deriving (Show)
+    } deriving (Show,Generic)
 
 data Language = Language {
         english_name :: String,
         iso_639_1 :: String,
         language_name :: String
-    } deriving (Show)
+    } deriving (Show,Generic)
 
 data Movie2Collection = Movie2Collection {
     -- id :: Int,
