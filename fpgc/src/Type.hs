@@ -1,10 +1,16 @@
 module Type 
 ( MovieInfo(..)
+, Movie(..)
 , Collection(..)
 , Genre(..)
 , Company(..)
 , Country(..)
 , Language(..)
+, Movie2Collection(..)
+, Movie2Company(..)
+, Movie2Genre(..)
+, Movie2Country(..)
+, Movie2Language(..)
 ) where
 
 
@@ -28,6 +34,35 @@ data MovieInfo = MovieInfo {
         revenue :: Integer,
         runtime :: Int,
         spoken_languages :: [Language],
+        status :: String,
+        tagline :: String,
+        title :: String,
+        video :: Bool,
+        vote_average :: Double,
+        vote_count :: Int
+    } deriving (Show)
+
+
+data Movie = Movie {
+        adult :: Bool,
+        backdrop_path :: String,
+        -- belongs_to_collection :: [Collection],
+        budget :: Integer,
+        -- genres :: [Genre],
+        homepage :: String,
+        id :: Int,
+        imdb_id :: String,
+        original_language :: String,
+        original_title :: String,
+        overview :: String,
+        popularity :: Double,
+        poster_path :: String,
+        -- production_companies :: [Company],
+        -- production_countries :: [Country],
+        release_date :: String,
+        revenue :: Integer,
+        runtime :: Int,
+        -- spoken_languages :: [Language],
         status :: String,
         tagline :: String,
         title :: String,
@@ -68,31 +103,31 @@ data Language = Language {
     } deriving (Show)
 
 data Movie2Collection = Movie2Collection {
-    id :: Int,
+    -- id :: Int,
     movie_id :: Int,
     collection_id :: Int
-}
+} deriving (Show)
 
 data Movie2Genre = Movie2Genre {
-    id :: Int,
+    -- id :: Int,
     movie_id :: Int,
     genre_id :: Int
-}
+} deriving (Show)
 
 data Movie2Company = Movie2Company {
-    id :: Int,
+    -- id :: Int,
     movie_id :: Int,
     company_id :: Int
-}
+} deriving (Show)
 
 data Movie2Country = Movie2Country {
-    id :: Int,
+    -- id :: Int,
     movie_id :: Int,
     country_id :: Int
-}
+} deriving (Show)
 
 data Movie2Language = Movie2Language {
-    id :: Int,
+    -- id :: Int,
     movie_id :: Int,
     language_id :: Int
-}
+} deriving (Show)
