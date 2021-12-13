@@ -3,11 +3,17 @@
 
 module Parse
     ( parseMovieInfo
+    , parseMovie
     , parseCollection
     , parseGenre
     , parseCompany
     , parseCountry
     , parseLanguage
+    , parseMovie2Collection
+    , parseMovie2Company
+    , parseMovie2Genre
+    , parseMovie2Country
+    , parseMovie2Language
     ) where
 
 import Type
@@ -48,6 +54,40 @@ instance FromJSON MovieInfo where
 -- Parse a given byte string which represents a JSON to a list of MovieInfo.
 parseMovieInfo :: L8.ByteString -> Either String [MovieInfo]
 parseMovieInfo json = eitherDecode json :: Either String [MovieInfo]
+
+-- ############ parseMovie ############
+
+instance FromJSON Movie where
+    parseJSON (Object v) = Movie
+        <$> v .: "adult_"
+        <*> v .: "backdrop_path_"
+        -- <*> v .: "belongs_to_collection_"
+        <*> v .: "budget_"
+        -- <*> v .: "genres_"
+        <*> v .: "homepage_"
+        <*> v .: "id_"
+        <*> v .: "imdb_id_"
+        <*> v .: "original_language_"
+        <*> v .: "original_title_"
+        <*> v .: "overview_"
+        <*> v .: "popularity_"
+        <*> v .: "poster_path_"
+        -- <*> v .: "production_companies_"
+        -- <*> v .: "production_countries_"
+        <*> v .: "release_date_"
+        <*> v .: "revenue_"
+        <*> v .: "runtime_"
+        -- <*> v .: "spoken_languages_"
+        <*> v .: "status_"
+        <*> v .: "tagline_"
+        <*> v .: "title_"
+        <*> v .: "video_"
+        <*> v .: "vote_average_"
+        <*> v .: "vote_count_"
+
+-- Parse a given byte string which represents a JSON to a list of Movie.
+parseMovie :: L8.ByteString -> Either String [Movie]
+parseMovie json = eitherDecode json :: Either String [Movie]
 
 -- ############ parseCollection ############
 
@@ -108,3 +148,57 @@ instance FromJSON Language where
 -- Parse a given byte string which represents a JSON to a list of Language.
 parseLanguage :: L8.ByteString -> Either String [Language]
 parseLanguage json = eitherDecode json :: Either String [Language]
+-- ############ parseMovie2Collection ############
+
+instance FromJSON Movie2Collection where
+    parseJSON (Object v) = Movie2Collection
+        <$> v .: "m2cl_movie_id"
+        <*> v .: "m2cl_collection_id"
+
+-- Parse a given byte string which represents a JSON to a list of Movie2Collection.
+parseMovie2Collection :: L8.ByteString -> Either String [Movie2Collection]
+parseMovie2Collection json = eitherDecode json :: Either String [Movie2Collection]
+
+-- ############ parseMovie2Genre ############
+
+instance FromJSON Movie2Genre where
+    parseJSON (Object v) = Movie2Genre
+        <$> v .: "m2g_movie_id"
+        <*> v .: "m2g_genre_id"
+
+-- Parse a given byte string which represents a JSON to a list of Movie2Genre.
+parseMovie2Genre :: L8.ByteString -> Either String [Movie2Genre]
+parseMovie2Genre json = eitherDecode json :: Either String [Movie2Genre]
+
+-- ############ parseMovie2Company ############
+
+instance FromJSON Movie2Company where
+    parseJSON (Object v) = Movie2Company
+        <$> v .: "m2cp_movie_id"
+        <*> v .: "m2cp_company_id"
+
+-- Parse a given byte string which represents a JSON to a list of Movie2Company.
+parseMovie2Company :: L8.ByteString -> Either String [Movie2Company]
+parseMovie2Company json = eitherDecode json :: Either String [Movie2Company]
+
+-- ############ parseMovie2Country ############
+
+instance FromJSON Movie2Country where
+    parseJSON (Object v) = Movie2Country
+        <$> v .: "m2ct_movie_id"
+        <*> v .: "m2ct_country_id"
+
+-- Parse a given byte string which represents a JSON to a list of Movie2Country.
+parseMovie2Country :: L8.ByteString -> Either String [Movie2Country]
+parseMovie2Country json = eitherDecode json :: Either String [Movie2Country]
+
+-- ############ parseMovie2Language ############
+
+instance FromJSON Movie2Language where
+    parseJSON (Object v) = Movie2Language
+        <$> v .: "m2l_movie_id"
+        <*> v .: "m2l_language_id"
+
+-- Parse a given byte string which represents a JSON to a list of Movie2Language.
+parseMovie2Language :: L8.ByteString -> Either String [Movie2Language]
+parseMovie2Language json = eitherDecode json :: Either String [Movie2Language]
