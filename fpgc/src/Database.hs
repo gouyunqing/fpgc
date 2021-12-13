@@ -30,7 +30,7 @@ module Database (
 --     toRow (Entry date_ day_ month_ year_ cases_ deaths_ fk_country)
 --         = toRow (date_, day_, month_, year_, cases_, deaths_, fk_country)
 
-import Types
+import Type
 import Control.Applicative
 import Database.SQLite.Simple
 import Database.SQLite.Simple.Internal
@@ -44,7 +44,7 @@ import Database.SQLite.Simple.ToRow
 initialiseDB :: IO Connection
 initialiseDB = do
         conn <- open "movie.sqlite"
-        execute_ conn "CREATE TABLE `movie` (\
+        execute_ conn "CREATE TABLE IF NOT EXISTS `movie` (\
             \`adult` BLOB NOT NULL,\
             \`backdrop_path` VARCHAR(45) NULL,\
             \`belongs_to_collection` VARCHAR(45) NULL,\
@@ -67,54 +67,54 @@ initialiseDB = do
             \`new_tablecol` DOUBLE NULL,\
             \`new_tablecol1` DECIMAL NULL,\
             \PRIMARY KEY (`id`))"
-        execute_ conn "CREATE TABLE `genre` (\
+        execute_ conn "CREATE TABLE IF NOT EXISTS `genre` (\
             \`id` INT NOT NULL,\
             \`name` VARCHAR(45) NULL,\
             \PRIMARY KEY (`id`))"
-        execute_ conn "CREATE TABLE `movie_genre` (\
+        execute_ conn "CREATE TABLE IF NOT EXISTS `movie_genre` (\
             \`id` INT NOT NULL AUTO_INCREMENT,\
             \`movie_id` INT NOT NULL,\
             \`genre_id` INT NOT NULL,\
             \PRIMARY KEY (`id`))"
-        execute_ conn "CREATE TABLE `production_companies` (\
+        execute_ conn "CREATE TABLE IF NOT EXISTS `production_companies` (\
             \`id` INT NOT NULL,\
             \`logo_path` VARCHAR(120) NULL,\
             \`name` VARCHAR(45) NULL,\
             \`origin_country` VARCHAR(45) NULL,\
            \ PRIMARY KEY (`id`))"
-        execute_ conn "CREATE TABLE `movie_production_companies` (\
+        execute_ conn "CREATE TABLE IF NOT EXISTS `movie_production_companies` (\
             \`id` INT NOT NULL AUTO_INCREMENT,\
             \`movie_id` INT NULL,\
             \`company_id` INT NULL,\
             \PRIMARY KEY (`id`))"
-        execute_ conn "CREATE TABLE `production_countries` (\
+        execute_ conn "CREATE TABLE IF NOT EXISTS `production_countries` (\
             \`id` INT NOT NULL AUTO_INCREMENT,\
             \`iso_3166_1` VARCHAR(45) NULL,\
             \`name` VARCHAR(45) NULL,\
             \PRIMARY KEY (`id`))"
-        execute_ conn "CREATE TABLE `movie_production_countries` (\
+        execute_ conn "CREATE TABLE IF NOT EXISTS `movie_production_countries` (\
             \`id` INT NOT NULL AUTO_INCREMENT,\
             \`movie_id` INT NOT NULL,\
             \`country_id` INT NOT NULL,\
             \PRIMARY KEY (`id`))"
-        execute_ conn "CREATE TABLE spoken_languages` (\
+        execute_ conn "CREATE TABLE IF NOT EXISTS spoken_languages` (\
             \`id` INT NOT NULL AUTO_INCREMENT,\
             \`english_name` VARCHAR(45) NULL,\
             \`iso_639_1` VARCHAR(45) NULL,\
             \`name` VARCHAR(45) NULL,\
             \PRIMARY KEY (`id`))"
-        execute_ conn "CREATE TABLE `movie_spoken_languages` (\
+        execute_ conn "CREATE TABLE IF NOT EXISTS `movie_spoken_languages` (\
             \`id` INT NOT NULL AUTO_INCREMENT,\
             \`movie_id` INT NOT NULL,\
             \`language_id` VARCHAR(45) NOT NULL,\
             \PRIMARY KEY (`id`))"
-        execute_ conn "CREATE TABLE `collection` (\
+        execute_ conn "CREATE TABLE IF NOT EXISTS `collection` (\
             \`id` INT NOT NULL,\
             \`collection_name` VARCHAR(45) NULL,\
             \`collection_poster_path` VARCHAR(45) NULL,\
             \`collection_backdrop_path` VARCHAR(45) NULL,\
             \PRIMARY KEY (`id`))"    
-        execute_ conn "CREATE TABLE `movie_collection` (\
+        execute_ conn "CREATE TABLE IF NOT EXISTS `movie_collection` (\
             \`id` INT NOT NULL AUTO_INCREMENT,\
             \`movie_id` INT NOT NULL,\
             \`collection_id` INT NOT NULL,\
@@ -125,39 +125,64 @@ initialiseDB = do
 -- search adult movie
 getAdultMovie conn adult = do
     results <- queryNamed conn "SELECT * FROM movie WHERE adult=:adult" [":adult" := adult]
+    return results
 -- search by name
 getMovieByName conn name = do
     results <- queryNamed conn "SELECT * FROM movie WHERE name LIKE '%:name%'" [":name" := name]
+    return results
 -- search by id
 getMovieById conn id = do
     results <- queryNamed conn "SELECT * FROM movie WHERE id=:id" [":id" := id]
+    return results
+
+instance FromRow Movie where
+    fromRow = Movie <$> field <*> field <*> field <*> field <*> field <*> field <*> field <*> field <*> field <*> field <*> field <*> field <*> field <*> field <*> field <*> field <*> field <*> field <*> field <*> field
+
+instance ToRow Movie where
+    toRow (Movie adult_ backdrop_path_ budget_ homepage_ id_ imdb_id_ original_language_ original_title_ overview_ popularity_ poster_path_ release_date_ revenue_ runtime_ status_ tagline_ title_ video_ vote_average_ vote_count_)
+        = toRow (adult_, backdrop_path_, budget_, homepage_, id_, imdb_id_, original_language_, original_title_, overview_, popularity_, poster_path_, release_date_, revenue_, runtime_, status_, tagline_, title_, video_, vote_average_, vote_count_)
 
 createMovieInfo :: Connection -> MovieInfo -> IO ()
 createMovieInfo conn movieInfo = do
     let movie = Movie {
-        adult = adult movieInfo,
-        backdrop_path = backdrop_path movieInfo,
-        budget = budget movieInfo,
-        homepage = homepage movieInfo,
-        id = id movieInfo,
-        imdb_id = imdb_id movieInfo,
-        original_language = original_language movieInfo,
-        original_title = original_title movieInfo,
-        overview = overview movieInfo,
-        popularity = popularity movieInfo,
-        poster_path = poster_path movieInfo,
-        release_date = release_date movieInfo,
-        revenue = revenue movieInfo,
-        runtime = runtime movieInfo,
-        status = status movieInfo,
-        tagline = tagline movieInfo,
-        title = title movieInfo,
-        video = video movieInfo,
-        vote_average = vote_average movieInfo,
-        vote_count = vote_count movieInfo
+        adult_ = adult movieInfo,
+        backdrop_path_ = backdrop_path movieInfo,
+        budget_ = budget movieInfo,
+        homepage_ = homepage movieInfo,
+        id_ = id movieInfo,
+        imdb_id_ = imdb_id movieInfo,
+        original_language_ = original_language movieInfo,
+        original_title_ = original_title movieInfo,
+        overview_ = overview movieInfo,
+        popularity_ = popularity movieInfo,
+        poster_path_ = poster_path movieInfo,
+        release_date_ = release_date movieInfo,
+        revenue_ = revenue movieInfo,
+        runtime_ = runtime movieInfo,
+        status_ = status movieInfo,
+        tagline_ = tagline movieInfo,
+        title_ = title movieInfo,
+        video_ = video movieInfo,
+        vote_average_ = vote_average movieInfo,
+        vote_count_ = vote_count movieInfo
     }
 
     execute conn "INSERT INTO movie VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)" movie
+
+    let genres = genres movieInfo
+    mapM_ (createGenre conn movie_id) genres
+
+    
+createMovie2Genre :: Connection -> String -> Genre -> IO ()
+createGenre conn movie_id genre = do
+    let genre_id = genre_id genre
+    let genre_name = genre_name genre
+    genre_results <- queryNamed conn "SELECT * FROM `genre` WHERE genre_id=:genre_id" [":genre_id" := genre_id]
+    if length genre_results > 0 then
+        execute conn "INSERT INTO movie_genre (movie_id, genre_id) VALUES (?,?)" (movie_id, genre_id)
+    else do
+        execute conn "INSERT INTO genre VALUES (?,?)" (gerne_id, genre_name)
+        execute conn "INSERT INTO movie_genre (movie_id, genre_id) VALUES (?,?)" (movie_id, genre_id)
 
 saveMovieInfo :: Connection -> [MovieInfo] -> IO ()
 saveMovieInfo conn = mapM_ (createMovieInfo conn)

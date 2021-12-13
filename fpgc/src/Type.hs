@@ -44,31 +44,31 @@ data MovieInfo = MovieInfo {
 
 
 data Movie = Movie {
-        adult :: Bool,
-        backdrop_path :: String,
+        adult_ :: Bool,
+        backdrop_path_ :: String,
         -- belongs_to_collection :: [Collection],
-        budget :: Integer,
+        budget_ :: Integer,
         -- genres :: [Genre],
-        homepage :: String,
-        id :: Int,
-        imdb_id :: String,
-        original_language :: String,
-        original_title :: String,
-        overview :: String,
-        popularity :: Double,
-        poster_path :: String,
+        homepage_ :: String,
+        id_ :: Int,
+        imdb_id_ :: String,
+        original_language_ :: String,
+        original_title_ :: String,
+        overview_ :: String,
+        popularity_ :: Double,
+        poster_path_ :: String,
         -- production_companies :: [Company],
         -- production_countries :: [Country],
-        release_date :: String,
-        revenue :: Integer,
-        runtime :: Int,
+        release_date_ :: String,
+        revenue_ :: Integer,
+        runtime_ :: Int,
         -- spoken_languages :: [Language],
-        status :: String,
-        tagline :: String,
-        title :: String,
-        video :: Bool,
-        vote_average :: Double,
-        vote_count :: Int
+        status_ :: String,
+        tagline_ :: String,
+        title_ :: String,
+        video_ :: Bool,
+        vote_average_ :: Double,
+        vote_count_ :: Int
     } deriving (Show)
 
 
@@ -104,30 +104,30 @@ data Language = Language {
 
 data Movie2Collection = Movie2Collection {
     -- id :: Int,
-    movie_id :: Int,
-    collection_id :: Int
+    m2cl_movie_id :: Int,
+    m2cl_collection_id :: Int
 } deriving (Show)
 
 data Movie2Genre = Movie2Genre {
     -- id :: Int,
-    movie_id :: Int,
-    genre_id :: Int
+    m2g_movie_id :: Int,
+    m2g_genre_id :: Int
 } deriving (Show)
 
 data Movie2Company = Movie2Company {
     -- id :: Int,
-    movie_id :: Int,
-    company_id :: Int
+    m2cp_movie_id :: Int,
+    m2cp_company_id :: Int
 } deriving (Show)
 
 data Movie2Country = Movie2Country {
     -- id :: Int,
-    movie_id :: Int,
-    country_id :: Int
+    m2ct_movie_id :: Int,
+    m2ct_country_id :: Int
 } deriving (Show)
 
 data Movie2Language = Movie2Language {
     -- id :: Int,
-    movie_id :: Int,
-    language_id :: Int
+    m2l_movie_id :: Int,
+    m2l_language_id :: Int
 } deriving (Show)
