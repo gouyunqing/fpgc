@@ -4,7 +4,7 @@ cabal-version: 1.12
 --
 -- see: https://github.com/sol/hpack
 
-name:           fpgc
+name:           haskell-project
 version:        0.1.0.0
 description:    Please see the README on GitHub at <https://github.com/githubuser/fpgc#readme>
 homepage:       https://github.com/githubuser/fpgc#readme
@@ -30,7 +30,7 @@ library
       Parse
       Type
   other-modules:
-      Paths_fpgc
+      Paths_haskell-project
   hs-source-dirs:
       src
   build-depends:
@@ -41,10 +41,10 @@ library
     , sqlite-simple
   default-language: Haskell2010
 
-executable fpgc-exe
+executable haskell-project-exe
   main-is: Main.hs
   other-modules:
-      Paths_fpgc
+      Paths_haskell-project
   hs-source-dirs:
       app
   ghc-options: -threaded -rtsopts -with-rtsopts=-N
@@ -52,16 +52,16 @@ executable fpgc-exe
       aeson
     , base >=4.7 && <5
     , bytestring
-    , fpgc
+    , haskell-project
     , http-conduit
     , sqlite-simple
   default-language: Haskell2010
 
-test-suite fpgc-test
+test-suite haskell-project-test
   type: exitcode-stdio-1.0
   main-is: Spec.hs
   other-modules:
-      Paths_fpgc
+      Paths_haskell-project
   hs-source-dirs:
       test
   ghc-options: -threaded -rtsopts -with-rtsopts=-N
@@ -69,7 +69,7 @@ test-suite fpgc-test
       aeson
     , base >=4.7 && <5
     , bytestring
-    , fpgc
+    , haskell-project
     , http-conduit
     , sqlite-simple
   default-language: Haskell2010
