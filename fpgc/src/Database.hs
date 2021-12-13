@@ -175,14 +175,12 @@ createMovieInfo conn movieInfo = do
     
 createMovie2Genre :: Connection -> String -> Genre -> IO ()
 createGenre conn movie_id genre = do
-    let genre_id = genre_id genre
-    let genre_name = genre_name genre
-    genre_results <- queryNamed conn "SELECT * FROM `genre` WHERE genre_id=:genre_id" [":genre_id" := genre_id]
+    genre_results <- queryNamed conn "SELECT * FROM `genre` WHERE genre_id=:genre_id" [":genre_id" := (genre_id genre)]
     if length genre_results > 0 then
-        execute conn "INSERT INTO movie_genre (movie_id, genre_id) VALUES (?,?)" (movie_id, genre_id)
+        execute conn "INSERT INTO movie_genre (movie_id, genre_id) VALUES (?,?)" (movie_id, (genre_id genre))
     else do
-        execute conn "INSERT INTO genre VALUES (?,?)" (gerne_id, genre_name)
-        execute conn "INSERT INTO movie_genre (movie_id, genre_id) VALUES (?,?)" (movie_id, genre_id)
+        execute conn "INSERT INTO genre VALUES (?,?)" ((gerne_id genre), (genre_name genre))
+        execute conn "INSERT INTO movie_genre (movie_id, genre_id) VALUES (?,?)" (movie_id, (genre_id genre))
 
 saveMovieInfo :: Connection -> [MovieInfo] -> IO ()
 saveMovieInfo conn = mapM_ (createMovieInfo conn)
