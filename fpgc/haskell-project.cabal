@@ -9,9 +9,9 @@ version:        0.1.0.0
 description:    Please see the README on GitHub at <https://github.com/githubuser/fpgc#readme>
 homepage:       https://github.com/githubuser/fpgc#readme
 bug-reports:    https://github.com/githubuser/fpgc/issues
-author:         Author name here
+author:         Yunqing Gou, Yingzhe Wan, Qifei Wang
 maintainer:     example@example.com
-copyright:      2021 Author name here
+copyright:      2021 Yunqing Gou, Yingzhe Wan, Qifei Wang
 license:        BSD3
 license-file:   LICENSE
 build-type:     Simple
