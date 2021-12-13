@@ -1,4 +1,4 @@
-name:                fpgc
+name:                haskell-project
 version:             0.1.0.0
 github:              "githubuser/fpgc"
 license:             BSD3
@@ -30,7 +30,7 @@ library:
   source-dirs: src
 
 executables:
-  fpgc-exe:
+  haskell-project-exe:
     main:                Main.hs
     source-dirs:         app
     ghc-options:
@@ -38,10 +38,10 @@ executables:
     - -rtsopts
     - -with-rtsopts=-N
     dependencies:
-    - fpgc
+    - haskell-project
 
 tests:
-  fpgc-test:
+  haskell-project-test:
     main:                Spec.hs
     source-dirs:         test
     ghc-options:
@@ -49,4 +49,4 @@ tests:
     - -rtsopts
     - -with-rtsopts=-N
     dependencies:
-    - fpgc
+    - haskell-project
