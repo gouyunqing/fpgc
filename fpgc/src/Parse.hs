@@ -52,7 +52,7 @@ parseMovieInfo json = eitherDecode json :: Either String [MovieInfo]
 -- ############ parseCollection ############
 
 instance FromJSON Collection where
-    parseJSON = withObject "Collection" $ \v -> Collection
+    parseJSON (Object v) = Collection
         <$> v .: "collection_id"
         <*> v .: "collection_name"
         <*> v .: "collection_poster_path"
@@ -65,7 +65,7 @@ parseCollection json = eitherDecode json :: Either String [Collection]
 -- ############ parseGenre ############
 
 instance FromJSON Genre where
-    parseJSON = withObject "Genre" $ \v -> Genre
+    parseJSON (Object v) = Genre
         <$> v .: "genre_id"
         <*> v .: "genre_name"
 
@@ -76,7 +76,7 @@ parseGenre json = eitherDecode json :: Either String [Genre]
 -- ############ parseCompany ############
 
 instance FromJSON Company where
-    parseJSON = withObject "Company" $ \v -> Company
+    parseJSON (Object v) = Company
         <$> v .: "company_id"
         <*> v .: "logo_path"
         <*> v .: "company_name"
@@ -89,7 +89,7 @@ parseCompany json = eitherDecode json :: Either String [Company]
 -- ############ parseCountry ############
 
 instance FromJSON Country where
-    parseJSON = withObject "Country" $ \v -> Country
+    parseJSON (Object v) = Country
         <$> v .: "iso_3166_1"
         <*> v .: "country_name"
 
@@ -100,7 +100,7 @@ parseCountry json = eitherDecode json :: Either String [Country]
 -- ############ parseLanguage ############
 
 instance FromJSON Language where
-    parseJSON = withObject "Language" $ \v -> Language
+    parseJSON (Object v) = Language
         <$> v .: "english_name"
         <*> v .: "iso_639_1"
         <*> v .: "language_name"
