@@ -148,6 +148,7 @@ instance FromJSON Language where
 -- Parse a given byte string which represents a JSON to a list of Language.
 parseLanguage :: L8.ByteString -> Either String [Language]
 parseLanguage json = eitherDecode json :: Either String [Language]
+
 -- ############ parseMovie2Collection ############
 
 instance FromJSON Movie2Collection where
