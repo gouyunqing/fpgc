@@ -117,15 +117,9 @@ getMovieById conn id = do
     results <- queryNamed conn "SELECT * FROM movie WHERE id=:id" [":id" := id]
     return results
 
-instance FromRow MovieInfo where
-    fromRow = MovieInfo <$> field <*> field <*> field <*> field <*> field <*> field <*> field <*> field <*> field <*> field <*> field <*> field <*> field <*> field <*> field <*> field <*> field <*> field <*> field <*> field <*> field <*> field <*> field <*> field <*> field
-
-instance FromRow Movie where
-    fromRow = Movie <$> field <*> field <*> field <*> field <*> field <*> field <*> field <*> field <*> field <*> field <*> field <*> field <*> field <*> field <*> field <*> field <*> field <*> field <*> field <*> field
-
 instance ToRow Movie where
-    toRow (Movie adult_ backdrop_path_ budget_ homepage_ id_ imdb_id_ original_language_ original_title_ overview_ popularity_ poster_path_ release_date_ revenue_ runtime_ status_ tagline_ title_ video_ vote_average_ vote_count_)
-        = toRow (adult_, backdrop_path_, budget_, homepage_, id_, imdb_id_, original_language_, original_title_, overview_, popularity_, poster_path_, release_date_, revenue_, runtime_, status_, tagline_, title_, video_, vote_average_, vote_count_)
+    toRow (Movie adult_ backdrop_path_ budget_ homepage_ id_)
+        = toRow (adult_, backdrop_path_, budget_, homepage_, id_)
 
 createMovieInfo :: Connection -> MovieInfo -> IO ()
 createMovieInfo conn movieInfo = do
@@ -134,22 +128,7 @@ createMovieInfo conn movieInfo = do
         backdrop_path_ = backdrop_path movieInfo,
         budget_ = budget movieInfo,
         homepage_ = homepage movieInfo,
-        id_ = mid movieInfo,
-        imdb_id_ = imdb_id movieInfo,
-        original_language_ = original_language movieInfo,
-        original_title_ = original_title movieInfo,
-        overview_ = overview movieInfo,
-        popularity_ = popularity movieInfo,
-        poster_path_ = poster_path movieInfo,
-        release_date_ = release_date movieInfo,
-        revenue_ = revenue movieInfo,
-        runtime_ = runtime movieInfo,
-        status_ = status movieInfo,
-        tagline_ = tagline movieInfo,
-        title_ = title movieInfo,
-        video_ = video movieInfo,
-        vote_average_ = vote_average movieInfo,
-        vote_count_ = vote_count movieInfo
+        id_ = mid movieInfo
     }
 
     execute conn "INSERT INTO movie VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)" movie
@@ -161,12 +140,8 @@ createMovieInfo conn movieInfo = do
     
 createMovie2Genre :: Connection -> Int -> Genre -> IO ()
 createMovie2Genre conn movie_id__ genre = do
-    genre_results <- queryNamed conn "SELECT * FROM `genre` WHERE genre_id=:genre_id" [":genre_id" := (genre_id genre)]
-    if length genre_results > 0 then
-        execute conn "INSERT INTO movie_genre (movie_id, genre_id) VALUES (?,?)" (movie_id__, (genre_id genre))
-    else do
-        execute conn "INSERT INTO genre VALUES (?,?)" ((genre_id genre), (genre_name genre))
-        execute conn "INSERT INTO movie_genre (movie_id, genre_id) VALUES (?,?)" (movie_id__, (genre_id genre))
+
+    execute conn "INSERT INTO movie_genre (movie_id, genre_id) VALUES (?,?)" (movie_id__, (genre_id genre))
 
 saveMovieInfo :: Connection -> [MovieInfo] -> IO ()
 saveMovieInfo conn = mapM_ (createMovieInfo conn)
