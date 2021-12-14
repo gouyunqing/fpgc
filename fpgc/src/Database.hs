@@ -12,24 +12,6 @@ module Database (
     saveMovieInfo
 ) where
 
-
--- instance FromRow Record where
---     fromRow = Record <$> field <*> field <*> field <*> field <*> field <*> field <*> field <*> field <*> field
-
--- instance FromRow Country where
---     fromRow = Country <$> field <*> field <*> field <*> field
-
--- instance ToRow Country where
---     toRow (Country id_ country_ continent_ population_)
---         = toRow (id_, country_, continent_, population_)
-
--- instance FromRow Entry where
---     fromRow = Entry <$> field <*> field <*> field <*> field <*> field <*> field <*> field
-
--- instance ToRow Entry where
---     toRow (Entry date_ day_ month_ year_ cases_ deaths_ fk_country)
---         = toRow (date_, day_, month_, year_, cases_, deaths_, fk_country)
-
 import Type
 import Control.Applicative
 import Database.SQLite.Simple
@@ -134,6 +116,9 @@ getMovieByName conn name = do
 getMovieById conn id = do
     results <- queryNamed conn "SELECT * FROM movie WHERE id=:id" [":id" := id]
     return results
+
+instance FromRow MovieInfo where
+    fromRow = MovieInfo <$> field <*> field <*> field <*> field <*> field <*> field <*> field <*> field <*> field <*> field <*> field <*> field <*> field <*> field <*> field <*> field <*> field <*> field <*> field <*> field <*> field <*> field <*> field <*> field <*> field
 
 instance FromRow Movie where
     fromRow = Movie <$> field <*> field <*> field <*> field <*> field <*> field <*> field <*> field <*> field <*> field <*> field <*> field <*> field <*> field <*> field <*> field <*> field <*> field <*> field <*> field
