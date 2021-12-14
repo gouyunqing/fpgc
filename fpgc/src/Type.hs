@@ -47,32 +47,34 @@ data MovieInfo = MovieInfo {
     } deriving (Show,Generic)
 
 
+-- data Movie = Movie {
+--         adult_ :: Bool,
+--         backdrop_path_ :: String,
+--         budget_ :: Int,
+--         homepage_ :: String,
+--         id_ :: Int,
+--         imdb_id_ :: String,
+--         original_language_ :: String,
+--         original_title_ :: String,
+--         overview_ :: String,
+--         popularity_ :: String,
+--         poster_path_ :: String,
+--         release_date_ :: String,
+--         revenue_ :: Int,
+--         runtime_ :: Int,
+--         status_ :: String,
+--         tagline_ :: String,
+--         title_ :: String,
+--         video_ :: Bool,
+--         vote_average_ :: String,
+--         vote_count_ :: Int
+--     } deriving (Show)
 data Movie = Movie {
         adult_ :: Bool,
         backdrop_path_ :: String,
-        -- belongs_to_collection :: [Collection],
         budget_ :: Int,
-        -- genres :: [Genre],
         homepage_ :: String,
-        id_ :: Int,
-        imdb_id_ :: String,
-        original_language_ :: String,
-        original_title_ :: String,
-        overview_ :: String,
-        popularity_ :: String,
-        poster_path_ :: String,
-        -- production_companies :: [Company],
-        -- production_countries :: [Country],
-        release_date_ :: String,
-        revenue_ :: Int,
-        runtime_ :: Int,
-        -- spoken_languages :: [Language],
-        status_ :: String,
-        tagline_ :: String,
-        title_ :: String,
-        video_ :: Bool,
-        vote_average_ :: String,
-        vote_count_ :: Int
+        id_ :: Int
     } deriving (Show)
 
 
