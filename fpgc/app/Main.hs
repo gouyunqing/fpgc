@@ -33,11 +33,6 @@ main = do
                     createMovieInfo conn (records recs)
                     print "Saved!"
                     main
-        2 -> do
-            putStrLn "Please enter the movie id"
-            movie_id_read <- readLn :: IO Int
-            movie_got <- getMovieById conn 
-            print movie_got
-            main
+                    
         3 -> print "Hope you've enjoyed using the app!"
         otherwise -> print "Invalid option"
