@@ -1,1 +1,1 @@
-# fpgc
+# haskell-project
